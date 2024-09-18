@@ -32,7 +32,7 @@ def columnOptions(self, colpos):
     m = QMenu(self.mw)
     a = m.addAction(_("Delete"))
     a.triggered.connect(lambda: deleteColumn(self, colpos))
-    if hasattr(m, 'exec_'):
+    if hasattr(m, 'exec_'): # added
         m.exec_(QCursor.pos())
     else:
         m.exec(QCursor.pos())

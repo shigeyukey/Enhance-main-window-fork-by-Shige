@@ -1,7 +1,7 @@
 from anki.decks import DeckManager
 from anki.notes import Note
 try:
-    from anki.sched import Scheduler
+    from anki.sched import Scheduler # type:ignore
 except ModuleNotFoundError:
     from anki.scheduler import v3
 from aqt.deckbrowser import DeckBrowser
