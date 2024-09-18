@@ -20,7 +20,7 @@ from aqt.qt import *
 from aqt.utils import askUser
 
 from .config import getUserOption, writeConfig
-from .custom_by_shige.custom_messege_box import CustomMessageBox
+from .custom_by_shige.custom_message_box import CustomMessageBox
 
 
 
@@ -62,8 +62,16 @@ def custom_column(self, colpos):
 
 
 def deleteColumn(self, colpos):
-    if not askUser(_("""Are you sure you wish to delete this column ?""")):
+    msg_box = CustomMessageBox(self.mw)
+    msg_box.setWindowTitle("Delete column")
+    msg_box.setText("Are you sure you wish to delete this column?")
+    msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+    ret = msg_box.exec()
+    if ret != QMessageBox.StandardButton.Yes:
         return
+
+    # if not askUser(_("""Are you sure you wish to delete this column ?""")):
+    #     return
     colpos = int(colpos)
     print("They are sure.")
     columns = getUserOption("columns")

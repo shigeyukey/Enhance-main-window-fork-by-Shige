@@ -29,7 +29,7 @@ class CustomMessageBox(QMessageBox):
         layout = QVBoxLayout()
         self.icon_path = get_icon_path(POPUP_PNG, "pix")
         self.icon_label = QLabel()
-        self.icon_label.setPixmap(QPixmap(self.icon_path))
+        self.icon_label.setPixmap(self.icon_path)
         hbox = QHBoxLayout()
 
         hbox.addWidget(self.icon_label)
@@ -52,3 +52,6 @@ class CustomMessageBox(QMessageBox):
     def setText(self, text):
         self.text_label.setText(text)
 
+    def setStandardButtons(self, buttons):
+        super().setStandardButtons(buttons)
+        self.icon_label.setPixmap(self.icon_path)
