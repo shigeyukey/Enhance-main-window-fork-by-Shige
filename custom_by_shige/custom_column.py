@@ -2,11 +2,12 @@ from aqt import (QColor, QDialog, QFrame, QHBoxLayout, QIntValidator, QResizeEve
                 QVBoxLayout, QLabel, QLineEdit, QCheckBox, QPushButton, QColorDialog, QWidget, Qt)
 from .shige_addons import add_shige_addons_tab
 from .endroll.endroll import add_credit_tab
-
+from .shige_pop.popup_config import RATE_THIS_URL
+from aqt.utils import openLink
 
 
 WIDGET_WIDTH = 500
-WIDGET_HEIGHT = 430
+WIDGET_HEIGHT = 455
 
 
 class CustomColumnDialog(QDialog):
@@ -194,6 +195,34 @@ class CustomColumnDialog(QDialog):
         self.cancel_button.clicked.connect(self.reject)
         button_layout.addWidget(self.cancel_button)
         button_layout.addStretch()
+
+
+        # Wiki Button
+        self.wiki_button = QPushButton("📖Wiki")
+        self.wiki_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        self.wiki_button.setStyleSheet("QPushButton { padding: 2px; }")
+        self.wiki_button.clicked.connect(lambda : openLink(""))
+        button_layout.addWidget(self.wiki_button)
+
+        # Rate This Button
+        self.ratethis_button = QPushButton("👍️Rate This")
+        self.ratethis_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        self.ratethis_button.setStyleSheet("QPushButton { padding: 2px; }")
+        self.ratethis_button.clicked.connect(lambda : openLink(RATE_THIS_URL))
+        button_layout.addWidget(self.ratethis_button)
+
+        # Patreon Button
+        self.patreon_button = QPushButton("💖Patreon")
+        self.patreon_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        self.patreon_button.setStyleSheet("QPushButton { padding: 2px; }")
+        self.patreon_button.clicked.connect(lambda : openLink("https://www.patreon.com/Shigeyuki"))
+        button_layout.addWidget(self.patreon_button)
+
+
+
+
+
+
 
         layout.addLayout(button_layout)
         self.setLayout(layout)

@@ -20,6 +20,9 @@ from aqt.qt import *
 from aqt.utils import askUser
 
 from .config import getUserOption, writeConfig
+from .custom_by_shige.custom_messege_box import CustomMessageBox
+
+
 
 lastHandler = DeckBrowser._linkHandler
 
@@ -31,7 +34,8 @@ def _linkHandler(self, url):
             return columnHandler(self, arg)
         elif cmd == "optsColumn":
             # return columnOptions(self, arg)
-            return  QTimer.singleShot(10, lambda: custom_column(self, arg))
+            # return  QTimer.singleShot(10, lambda: custom_column(self, arg))
+            return  QTimer.singleShot(10, lambda: columnOptions(self, arg))
     return lastHandler(self, url)
 
 
@@ -45,31 +49,16 @@ def columnHandler(self, arg):
     self.show()
 
 
-# def custom_column(self, colpos):
-#     # from aqt.utils import tooltip
-#     from .custom_by_shige.custom_column import CustomColumnDialog
-#     colpos = int(colpos)
-#     columns = getUserOption("columns")
-#     column = columns[colpos]
-#     # tooltip(f"Custom Column :  {colpos}<br>{column}")
-#     dialog = CustomColumnDialog(column, self.mw, self)
-#     dialog.exec()
-
 def custom_column(self, colpos):
     # from aqt.utils import tooltip
     from .custom_by_shige.custom_column import CustomColumnDialog
-    print(f"Received colpos: {colpos}")
     colpos = int(colpos)
-    print(f"Converted colpos to int: {colpos}")
     columns = getUserOption("columns")
-    print(f"Retrieved columns: {columns}")
     column = columns[colpos]
-    print(f"Selected column: {column}")
     # tooltip(f"Custom Column :  {colpos}<br>{column}")
     dialog = CustomColumnDialog(column, self.mw, self)
-    print("Initialized CustomColumnDialog")
     dialog.exec()
-    print("Executed dialog")
+
 
 
 def deleteColumn(self, colpos):
@@ -94,19 +83,19 @@ def deleteColumn(self, colpos):
 #     else:
 #         m.exec(QCursor.pos())
 
-# def columnOptions(self, colpos):
-#     m = QMenu(self.mw)
+def columnOptions(self, colpos):
+    m = QMenu(self.mw)
 
-#     b = m.addAction("⚙️Custom")
-#     b.triggered.connect(lambda: QTimer.singleShot(0, custom_column(self, colpos)))
+    b = m.addAction("⚙️Custom")
+    b.triggered.connect(lambda: custom_column(self, colpos))
 
-#     a = m.addAction("🗑️Delete")
-#     a.triggered.connect(lambda: deleteColumn(self, colpos))
+    a = m.addAction("🗑️Delete")
+    a.triggered.connect(lambda: deleteColumn(self, colpos))
 
-#     if hasattr(m, 'exec_'): # added
-#         m.exec_(QCursor.pos())
-#     else:
-#         m.exec(QCursor.pos())
+    if hasattr(m, 'exec_'): # added
+        m.exec_(QCursor.pos())
+    else:
+        m.exec(QCursor.pos())
 
 
 

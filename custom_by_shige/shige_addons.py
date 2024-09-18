@@ -13,6 +13,8 @@ from aqt.utils import openLink
     #     # self.resize(min_size.width(), min_size.height())
     #     self.resize(min_size.width(), WIDGET_HEIGHT)
 
+html_content_cache = None
+
 def handle_new_window(url):
     openLink(url)
 
@@ -27,13 +29,16 @@ class CustomWebEnginePage(QWebEnginePage):
 
 def add_shige_addons_tab(self, tab_widget:"QTabWidget"):
 
-    url = "https://raw.githubusercontent.com/shigeyukey/shige-addons/main/HTML/ShigeAddons.html"
-    try:
-        response = requests.get(url, timeout=3)
-        response.raise_for_status()
-        html_content = response.text
-    except:
-        return
+    global html_content_cache
+
+    if html_content_cache is None:
+        url = "https://raw.githubusercontent.com/shigeyukey/shige-addons/main/HTML/ShigeAddons.html"
+        try:
+            response = requests.get(url, timeout=3)
+            response.raise_for_status()
+            html_content_cache = response.text
+        except:
+            return
 
     tab4 = QWidget(self)
 
@@ -43,7 +48,7 @@ def add_shige_addons_tab(self, tab_widget:"QTabWidget"):
     web_view.settings().setAttribute(QWebEngineSettings.WebAttribute.JavascriptEnabled, True)
     web_view.settings().setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessFileUrls, True)
 
-    web_view.setHtml(html_content)
+    web_view.setHtml(html_content_cache)
 
     tab4_layout = QVBoxLayout()
     tab4_layout.addWidget(web_view)
