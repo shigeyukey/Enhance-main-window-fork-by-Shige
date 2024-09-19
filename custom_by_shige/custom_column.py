@@ -217,6 +217,15 @@ class CustomColumnDialog(QDialog):
         self.wiki_button.clicked.connect(lambda : openLink("https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html"))
         button_layout.addWidget(self.wiki_button)
 
+
+        # Wiki Button
+        self.report_button = QPushButton("🚨Report")
+        self.report_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        self.report_button.setStyleSheet("QPushButton { padding: 2px; }")
+        self.report_button.clicked.connect(lambda : openLink("https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#report"))
+        button_layout.addWidget(self.report_button)
+
+
         # Rate This Button
         self.ratethis_button = QPushButton("👍️Rate This")
         self.ratethis_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
