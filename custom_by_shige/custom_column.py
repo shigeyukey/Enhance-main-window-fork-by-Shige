@@ -4,6 +4,7 @@ from .shige_addons import add_shige_addons_tab
 from .endroll.endroll import add_credit_tab
 from .shige_pop.popup_config import RATE_THIS_URL
 from aqt.utils import openLink
+from .open_shige_addons_wiki import WikiQLabel
 
 
 WIDGET_WIDTH = 500
@@ -18,7 +19,7 @@ class CustomColumnDialog(QDialog):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Enhance main window custom by Shige")
+        self.setWindowTitle("Enhance main window Custom by Shige")
         layout = QVBoxLayout()
 
         tab_widget = QTabWidget()
@@ -29,10 +30,15 @@ class CustomColumnDialog(QDialog):
 
         # Name
         if "name" in self.column:
-            layout.addWidget(QLabel(f'<b>[ Name of selected column ] {self.column["name"]}</b>'))
+            column_name_label = WikiQLabel(f'<b>[ Name of selected column ] {self.column["name"]}</b>',
+                "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#name-of-selected-column")
+            column_name_label.setStyleSheet("font-size: 18px;")  # フォントサイズを18pxに設定
+            layout.addWidget(column_name_label)
 
         # Present
         if "present" in self.column:
+            tab1_layout.addWidget(WikiQLabel("<b>[ Show this column ]</b>",
+                "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#show-this-column"))
             self.present_checkbox = QCheckBox("Show this column")
             self.present_checkbox.setChecked(self.column["present"])
             tab1_layout.addWidget(self.present_checkbox)
@@ -49,12 +55,14 @@ class CustomColumnDialog(QDialog):
             default_header_value_label = QLabel()
             default_header_value_label.setText(defaultHeader[self.column["name"]])
             default_header_value_label.setTextFormat(Qt.TextFormat.PlainText)
+            default_header_value_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             tab1_layout.addWidget(default_header_value_label)
 
 
             tab1_layout.addWidget(self.create_separator())  # ----------
 
-            tab1_layout.addWidget(QLabel("<b>[ Custom header ]</b>"))
+            tab1_layout.addWidget(WikiQLabel("<b>[ Custom header ]</b>", 
+                "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#header"))
             header_text = "" if self.column["header"] is None else self.column["header"]
             self.header_edit = QLineEdit(header_text)
             tab1_layout.addWidget(self.header_edit)
@@ -72,7 +80,8 @@ class CustomColumnDialog(QDialog):
 
         # Description
         if "overlay" in self.column:
-            tab2_layout.addWidget(QLabel("<b>[ Tooltip ]</b>"))
+            tab2_layout.addWidget(WikiQLabel("<b>[ Tooltip ]</b>",
+                "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#tooltip"))
             self.overlay_checkbox = QCheckBox("Show tooltip")
             self.overlay_checkbox.setChecked(self.column["overlay"] is None)
             tab2_layout.addWidget(self.overlay_checkbox)
@@ -86,7 +95,8 @@ class CustomColumnDialog(QDialog):
         # Color
         if "color" in self.column:
             tab2_layout.addWidget(self.create_separator())  # ----------
-            tab2_layout.addWidget(QLabel("<b>[ Color ]</b>"))
+            tab2_layout.addWidget(WikiQLabel("<b>[ Color ]</b>",
+                "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#color"))
             color_text = "No Color Selected" if self.column["color"] is None else self.column["color"]
             self.color_label = QLabel(color_text)
             if self.column["color"] is not None:
@@ -121,7 +131,8 @@ class CustomColumnDialog(QDialog):
 
         # Percent
         if "percent" in self.column:
-            tab3_layout.addWidget(QLabel("<b>[ Percent ]</b>"))
+            tab3_layout.addWidget(WikiQLabel("<b>[ Percent ]</b>",
+                "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#show-percent"))
             self.percent_checkbox = QCheckBox("Show percent")
             self.percent_checkbox.setChecked(self.column["percent"])
             tab3_layout.addWidget(self.percent_checkbox)
@@ -135,7 +146,8 @@ class CustomColumnDialog(QDialog):
 
         # Subdeck
         if "subdeck" in self.column:
-            tab3_layout.addWidget(QLabel("<b>[ Subdeck ]</b>"))
+            tab3_layout.addWidget(WikiQLabel("<b>[ Subdeck ]</b>",
+                "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#subdecks"))
             self.subdeck_checkbox = QCheckBox("Include Subdecks in calculations")
             self.subdeck_checkbox.setChecked(self.column["subdeck"])
             tab3_layout.addWidget(self.subdeck_checkbox)
@@ -151,7 +163,8 @@ class CustomColumnDialog(QDialog):
         tab4_layout = QVBoxLayout()
 
         from .custom_all_column import open_all_column_dialog
-
+        tab4_layout.addWidget(WikiQLabel("<b>[ All columns ]</b>",
+            "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#toggle-on-or-off-all-columns"))
         self.open_dialog_button = QPushButton("Toggle on or off for all columns")
         self.open_dialog_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         self.open_dialog_button.clicked.connect(lambda : open_all_column_dialog(self, self.deckbrowser))
@@ -201,7 +214,7 @@ class CustomColumnDialog(QDialog):
         self.wiki_button = QPushButton("📖Wiki")
         self.wiki_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         self.wiki_button.setStyleSheet("QPushButton { padding: 2px; }")
-        self.wiki_button.clicked.connect(lambda : openLink(""))
+        self.wiki_button.clicked.connect(lambda : openLink("https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html"))
         button_layout.addWidget(self.wiki_button)
 
         # Rate This Button
@@ -237,6 +250,8 @@ class CustomColumnDialog(QDialog):
         # layout = QVBoxLayout()
         # layout_02 = QVBoxLayout()
 
+        tab4_layout.addWidget(WikiQLabel("<b>[ Hide values, Option ]</b>",
+            "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#hide-values-of-parent-decks"))
         self.hide_values_of_parent_decks = userOption.get("hide values of parent decks", False)
         self.hide_values_checkbox = QCheckBox("Hide values of parent decks")
         self.hide_values_checkbox.setChecked(self.hide_values_of_parent_decks)
@@ -254,7 +269,8 @@ class CustomColumnDialog(QDialog):
         tab4_layout.addWidget(self.option_checkbox)
 
 
-
+        tab4_layout.addWidget(WikiQLabel("<b>[ Colors ]</b>",
+            "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#color-1"))
         self.default_column_color = QColor(userOption.get("default column color", "grey"))
         self.default_column_color_button = QPushButton("default column color")
         self.default_column_color_button.setStyleSheet(f"background-color: {self.default_column_color.name()}")
@@ -301,7 +317,8 @@ class CustomColumnDialog(QDialog):
         tab4_layout.addLayout(color_second_row_layout)
 
         # Color ------
-        tab4_layout.addWidget(QLabel("<b>[ Color Zero ]</b>"))
+        tab4_layout.addWidget(WikiQLabel("<b>[ Color Zero ]</b>",
+            "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#color-zero"))
         self.color_zero = userOption.get("color zero", False)
         color_zero_text = "No Color Selected" if self.color_zero is False else self.color_zero
         self.color_zero_label = QLabel(color_zero_text)
@@ -324,6 +341,9 @@ class CustomColumnDialog(QDialog):
         tab4_layout.addLayout(color_button_layout)
         # Color ------
 
+
+        tab5_layout.addWidget(WikiQLabel("<b>[ Do color, Dot ]</b>",
+            "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#do-color-marked-and-do-color-empty"))
 
         # Do Color Marked Checkbox
         self.do_color_marked = userOption.get("do color marked", True)
@@ -348,8 +368,13 @@ class CustomColumnDialog(QDialog):
         do_checkbox_layout.addStretch()
         tab5_layout.addLayout(do_checkbox_layout)
 
+
+        # tab5_layout.addWidget(WikiQLabel("<b>[ Cap value ]</b>",
+        #     "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#cap-value"))
+
         h_layout = QHBoxLayout()
-        h_layout.addWidget(QLabel("cap value"))
+        h_layout.addWidget((WikiQLabel("<b>[ Cap value ]</b>",
+            "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#end-symbol")))
         self.cap_value = userOption.get("cap value", None)
         self.cap_value_edit = QLineEdit(self.cap_value if self.cap_value is not None else "")
         self.cap_value_edit.setValidator(QIntValidator())  # Only numbers can be input
@@ -357,6 +382,11 @@ class CustomColumnDialog(QDialog):
         tab5_layout.addLayout(h_layout)
 
         # -- Symbol -------------
+
+        tab5_layout.addWidget(WikiQLabel("<b>[ Symbols ]</b>",
+            "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#end-symbol"))
+
+
         # End Symbol
         self.end_symbol = userOption.get("end symbol", ";")
         self.end_symbol_edit = QLineEdit(self.end_symbol)
