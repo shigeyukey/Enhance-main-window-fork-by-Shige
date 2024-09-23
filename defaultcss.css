@@ -4,7 +4,7 @@
         }
 
         /* Tooltip text */
-        .tooltip .tooltiptext {
+        .custom_shige_tooltip .custom_shige_tooltiptext {
             visibility: hidden;
             background-color: black;
             color: #fff;
@@ -18,9 +18,9 @@
         }
 
         /* Show the tooltip text when you mouse over the tooltip container */
-        .tooltip:hover .tooltiptext {
+        /* .custom_shige_tooltip:hover .custom_shige_tooltiptext {
             visibility: visible;
-        }
+        } */
 
 	/* padding-left for header columns except deck-column */
 	th.count {

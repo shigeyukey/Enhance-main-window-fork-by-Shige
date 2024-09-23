@@ -101,11 +101,11 @@ def number_cell(colour, number, description):
     <td align = 'right' class='number_cell'>"""
     else:
         description = f"""
-      <span class = 'tooltiptext'>
+      <span class = 'custom_shige_tooltiptext'>
         {description}
       </span>"""
         t = f"""
-    <td align = 'right' class = 'tooltip number_cell'>"""
+    <td align = 'right' class = 'custom_shige_tooltip number_cell'>"""
     # if number:
     t += f"""
       <font color = '{colour}'>
@@ -141,9 +141,9 @@ end_line = """
 
 def bar(name, width, left, color, overlay):
     return f"""
-          <div class="tooltip bar" style="position:absolute; height:100%; width:{width}%; background-color:{color}; left :{left}% ;">
+          <div class="custom_shige_tooltip bar" style="position:absolute; height:100%; width:{width}%; background-color:{color}; left :{left}% ;">
             <!-- {name}-->
-            <span class="tooltiptext">
+            <span class="custom_shige_tooltiptext">
               {overlay}
             </span>
           </div>"""

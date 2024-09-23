@@ -28,7 +28,7 @@ class ColumnDialog(QDialog):
                 # checkbox = QCheckBox(column["name"])
 
                 from ..strings import defaultHeader
-                checkbox = QCheckBox(defaultHeader[column["name"]])
+                checkbox = QCheckBox(f'{defaultHeader[column["name"]]} | {column["description"]}')
 
                 checkbox.setChecked(column["present"])
                 self.checkboxes.append((checkbox, column))
