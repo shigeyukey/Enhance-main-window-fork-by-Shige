@@ -94,7 +94,7 @@ def deleteColumn(self, colpos):
 def columnOptions(self, colpos):
     m = QMenu(self.mw)
 
-    b = m.addAction("⚙️Custom")
+    b = m.addAction("⚙️Custom") # added
     b.triggered.connect(lambda: custom_column(self, colpos))
 
     a = m.addAction("🗑️Delete")

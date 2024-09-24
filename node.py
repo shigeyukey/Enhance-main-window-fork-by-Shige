@@ -607,7 +607,7 @@ class DeckNode:
         return ""
 
     def htmlRow(self, col, depth, cnt):
-        from .custom_by_shige.tippy.shige_custom_tooltip import get_tooltip
+        # from .custom_by_shige.tippy.shige_custom_tooltip import get_tooltip
         "Generate the HTML table cells for this row of the deck tree."
         if self.emptyRow(cnt):
             return ""
@@ -617,7 +617,7 @@ class DeckNode:
             self.getNumberColumns() +
             gear(self.did) +
             self.getOptionName() +
-            get_tooltip() + # add
+            # get_tooltip() + # add
             end_line +
             col._renderDeckTree(self.children, depth+1)
         )
