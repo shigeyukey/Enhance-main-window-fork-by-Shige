@@ -14,7 +14,11 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from anki.lang import _
+# from anki.lang import _
+def _(str: str) -> str:
+    return str
+
+
 from aqt.deckbrowser import DeckBrowser
 from aqt.qt import *
 from aqt.utils import askUser
@@ -91,11 +95,18 @@ def deleteColumn(self, colpos):
 #     else:
 #         m.exec(QCursor.pos())
 
-def columnOptions(self, colpos):
+def columnOptions(self:"DeckBrowser", colpos):
     m = QMenu(self.mw)
 
     b = m.addAction("⚙️Custom") # added
     b.triggered.connect(lambda: custom_column(self, colpos))
+
+
+    c = m.addAction("✅All column") # added
+    from .custom_by_shige.custom_all_column import open_all_column_dialog
+    c.triggered.connect(lambda: open_all_column_dialog(self.mw, self))
+
+
 
     a = m.addAction("🗑️Delete")
     a.triggered.connect(lambda: deleteColumn(self, colpos))

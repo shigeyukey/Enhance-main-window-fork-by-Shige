@@ -14,7 +14,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from anki.utils import intTime
+# from anki.utils import intTime
+from anki.utils import int_time
+
 from aqt import mw
 
 from .consts import *
@@ -27,10 +29,13 @@ values = dict()
 
 def computeValues():
     debug("Compute values")
-    cutoff = intTime() + mw.col.get_config('collapseTime')
+    # cutoff = intTime() + mw.col.get_config('collapseTime')
+    cutoff = int_time() + mw.col.get_config('collapseTime')
+
     today = mw.col.sched.today
     tomorrow = today+1
-    yesterdayLimit = (mw.col.sched.dayCutoff-86400)*1000
+    # yesterdayLimit = (mw.col.sched.dayCutoff-86400)*1000
+    yesterdayLimit = (mw.col.sched.day_cutoff-86400)*1000
     debug(f"Yesterday limit is {yesterdayLimit}")
     queriesCardCount = ([(f"flag {i}", f"(flags & 7) == {i}", "", "") for i in range(5)] +
                         [

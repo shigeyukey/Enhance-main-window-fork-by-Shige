@@ -16,7 +16,10 @@
 
 import os
 
-from anki.lang import _
+# from anki.lang import _
+def _(str: str) -> str:
+    return str
+
 
 from .config import getUserOption
 
@@ -119,6 +122,32 @@ def number_cell(colour, number, description):
     return t
 
 
+def custom_number_cell(number, description):
+    if description is None or description is False:
+        description = ""
+        t = f"""
+    <td align = 'right' class='number_cell'>"""
+    else:
+        description = f"""
+      <span class = 'custom_shige_tooltiptext'>
+        {description}
+      </span>"""
+        t = f"""
+
+    <td align = 'right' class = 'custom_shige_tooltip number_cell'>"""
+    # if number:
+    t += f"""
+        {number}"""
+    if description:
+        t += f"""
+      {description}"""
+    t += """
+    </td>"""
+    return t
+
+
+
+
 def gear(did):
     return f"""
     <td align = center class = opts>
@@ -148,8 +177,14 @@ def bar(name, width, left, color, overlay):
             </span>
           </div>"""
 
+# def progress(content):
+#     return f"""
+#       <div class="progress" style="position:relative;	height:1em;	display:inline-block;	width:100px;		">{content}
+#       </div>"""
 
 def progress(content):
     return f"""
-      <div class="progress" style="position:relative;	height:1em;	display:inline-block;	width:100px;		">{content}
-      </div>"""
+      <div class="progress" style="position:relative; height:1em; display:inline-block; width:100px; border-radius:5px; overflow:hidden; " >
+        {content}
+      </div>
+      """

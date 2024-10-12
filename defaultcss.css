@@ -67,3 +67,6 @@
             visibility: hidden;
         }
 
+    .progress:hover {
+        overflow: visible !important
+    }

@@ -18,7 +18,8 @@ import copy
 import sys
 import time
 
-from anki.utils import ids2str, intTime
+# from anki.utils import ids2str, intTime
+from anki.utils import ids2str, int_time
 from aqt import mw
 from aqt.qt import *
 from aqt.utils import downArrow
@@ -27,7 +28,7 @@ from . import tree
 from .config import getFromName, getUserOption, writeConfig
 from .debug import debug
 from .htmlAndCss import (bar, collapse_children_html, collapse_no_child,
-                         column_header, css, deck_header, deck_name,
+                         column_header, css, custom_number_cell, deck_header, deck_name,
                          deck_option_name, end_header, end_line, gear, js,
                          number_cell, option_header, option_name_header,
                          progress, start_header, start_line)
@@ -377,12 +378,25 @@ class DeckNode:
             return ""
         cumulative = 0
         content = ""
-        for name in names:
+        # for name in names:
+        for i, name in enumerate(names):
+
             conf = getFromName(name) or {"name": name}
             color = getColor(conf)
             number = self.count['absolute'][kind][False].get(name, 0)
             overlay = f"{number}: {getOverlay(conf)}"
             width = number*100/total
+
+            # ﾃｽﾄ : 角を丸くする ----
+            # if i == 0:
+            #     border_radius = "border-radius: 5px 0 0 5px;"
+            # elif i == len(names) - 1:
+            #     border_radius = "border-radius: 0 5px 5px 0;"
+            # else:
+            #     border_radius = ""
+            # content += bar(name, width, cumulative, color, overlay, border_radius)
+            # # ----
+
             content += bar(name, width, cumulative, color, overlay)
             cumulative += width
         return progress(content)
@@ -404,7 +418,7 @@ class DeckNode:
         for kind in ["deck", "subdeck"]:
             for name in self.noteSet[kind]:
                 self.addCount("absolute", kind, False, name,
-                              len(self.noteSet[kind][name]))
+                                len(self.noteSet[kind][name]))
             for name in self.noteSet[kind]:
                 self._setPercentAndBoth(kind, name, "notes")
 
@@ -432,7 +446,8 @@ class DeckNode:
                 """{self.name}[{kind}]=={learningNow}. Time due is {self.timeDue[kind]}.""")
             for absoluteOrPercent in self.count:
                 if ((not learningNow)) and (self.timeDue[kind] != 0):
-                    remainingSeconds = self.timeDue[kind] - intTime()
+                    # remainingSeconds = self.timeDue[kind] - intTime()
+                    remainingSeconds = self.timeDue[kind] - int_time()
                     if remainingSeconds >= 60:
                         self.addCount(absoluteOrPercent, kind, True, "learning now", "[%dm]" % (
                             remainingSeconds // 60))
@@ -606,6 +621,40 @@ class DeckNode:
             return deck_option_name(self.confName)
         return ""
 
+
+    def get_FSRS_desire_retention(self):
+        if getUserOption("FSRS_desire_retention", True):
+            desiredRetention = mw.col.decks.config_dict_for_deck_id(self.did).get("desiredRetention","")
+            if not desiredRetention == "":
+                try:
+                    desiredRetention = int(float(desiredRetention) * 100)
+                    text = f"{desiredRetention}%"
+                except ValueError:
+                    return ""
+                description = f"""
+                FSRS Desire Retention<br/>
+                Preset: {self.confName}
+                """
+                return custom_number_cell(text, description)
+            else:
+                return ""
+        return ""
+
+    def get_maximum_interval(self):
+        if getUserOption("maximum_interval", True):
+            maxIvl = mw.col.decks.config_dict_for_deck_id(self.did).get("rev",{}).get("maxIvl","")
+            if maxIvl == "":
+                return ""
+            else:
+                text = f"{maxIvl} day"
+                description = f"""
+                Maximum Interval<br/>
+                Preset: {self.confName}
+                """
+                return custom_number_cell(text, description)
+        return ""
+
+
     def htmlRow(self, col, depth, cnt):
         # from .custom_by_shige.tippy.shige_custom_tooltip import get_tooltip
         "Generate the HTML table cells for this row of the deck tree."
@@ -617,6 +666,8 @@ class DeckNode:
             self.getNumberColumns() +
             gear(self.did) +
             self.getOptionName() +
+            self.get_FSRS_desire_retention()+ # custom
+            self.get_maximum_interval()+ # custom
             # get_tooltip() + # add
             end_line +
             col._renderDeckTree(self.children, depth+1)

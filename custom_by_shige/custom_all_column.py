@@ -34,6 +34,25 @@ class ColumnDialog(QDialog):
                 self.checkboxes.append((checkbox, column))
                 scroll_layout.addWidget(checkbox)
 
+        # added ---------
+        self.preset_option = getUserOption("option")
+        self.FSRS_desire_retention = getUserOption("FSRS_desire_retention", True)
+        self.maximum_interval = getUserOption("maximum_interval", True)
+
+        self.preset_option_checkbox = QCheckBox("Deck Preset name")
+        self.preset_option_checkbox.setChecked(self.preset_option)
+        scroll_layout.addWidget(self.preset_option_checkbox)
+
+        self.FSRS_desire_retention_checkbox = QCheckBox("FSRS Desire Retention")
+        self.FSRS_desire_retention_checkbox.setChecked(self.FSRS_desire_retention)
+        scroll_layout.addWidget(self.FSRS_desire_retention_checkbox)
+
+        self.maximum_interval_checkbox = QCheckBox("Maximum Interval")
+        self.maximum_interval_checkbox.setChecked(self.maximum_interval)
+        scroll_layout.addWidget(self.maximum_interval_checkbox)
+        # ----------------
+
+
         scroll_area.setWidget(scroll_content)
         layout.addWidget(scroll_area)
 
@@ -56,6 +75,14 @@ class ColumnDialog(QDialog):
     def save_and_close(self):
         for checkbox, column in self.checkboxes:
             column["present"] = checkbox.isChecked()
+
+        from ..config import getUserOption
+        userOption = getUserOption()
+
+        userOption["option"] = self.preset_option_checkbox.isChecked()
+        userOption["FSRS_desire_retention"] = self.FSRS_desire_retention_checkbox.isChecked()
+        userOption["maximum_interval"] = self.maximum_interval_checkbox.isChecked()
+
         from ..config import writeConfig
         writeConfig()
         self.deckbrowser.show()

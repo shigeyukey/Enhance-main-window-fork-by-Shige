@@ -272,10 +272,10 @@ class CustomColumnDialog(QDialog):
         tab4_layout.addWidget(self.hide_values_subdecks_checkbox)
 
 
-        self.option = userOption.get("option", True)
-        self.option_checkbox = QCheckBox("Show name of deck option")
-        self.option_checkbox.setChecked(self.option)
-        tab4_layout.addWidget(self.option_checkbox)
+        # self.option = userOption.get("option", True)
+        # self.option_checkbox = QCheckBox("Show name of deck option")
+        # self.option_checkbox.setChecked(self.option)
+        # tab4_layout.addWidget(self.option_checkbox)
 
 
         tab4_layout.addWidget(WikiQLabel("<b>[ Colors ]</b>",
@@ -510,7 +510,7 @@ class CustomColumnDialog(QDialog):
         userOption["hide values of parent decks"] = self.hide_values_checkbox.isChecked()
         userOption["hide values of parent decks when subdecks are shown"] = self.hide_values_subdecks_checkbox.isChecked()
         userOption["default column color"] = self.default_column_color.name()
-        userOption["option"] = self.option_checkbox.isChecked()
+        # userOption["option"] = self.option_checkbox.isChecked()
 
         text_value = self.cap_value_edit.text().strip()
         if text_value in ["", "0"]:

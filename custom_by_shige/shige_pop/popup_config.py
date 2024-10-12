@@ -6,19 +6,19 @@ from aqt import mw
 from os.path import join, dirname
 from aqt import QPixmap, gui_hooks, QResizeEvent
 from aqt.utils import openLink
+from .patreon_list import PATRONS_LIST
 
 from .change_log import OLD_CHANGE_LOG #🟢
 
 CHANGE_LOG = "is_change_log"
 # CHANGE_LOG_DAY = "2024-09-19-" #🟢
-CHANGE_LOG_DAY = "2024-09-25d" #🟢
+CHANGE_LOG_DAY = "2024-10-12d" #🟢
 
-#🟢
-PATRONS_LIST = "Arthur Bookstein, Haruka, Luis Alberto, Letona Quispe, GP O'Byrne, Tobias Klös, 07951350313540, Douglas Beeman, Daniel Kohl-Fink, Gabriel Vinicio Guedes, Ernest Chan, Haley Schwarz, Ketan Pal, Kyle Mondlak, Lily, Tim, Oleksandr Pashchenko, Alba Grecia Suárez Recuay, Kurt Grabow, Alex D, Jesse Asiedu, Renoaldo Costa Silva Junior, Felipe Dias, NamelessGO, Fahim Shaik, Corentin, Yitzhak Bar Geva, 龍星 武田, Muneeb Khan, Hikori, Lê Hoàng Phúc, ElAnki, oiuhroiehg, Tae Lee, Ashok Rajpurohit, Tobias Günther, NoirHassassin, Jk, Jake Stucki, Cole Krueger, Ansel Ng, Victor Evangelista, Moritz Bluhm, Maik C., Ricardo Escobar, Daniel Valcárcel Málaga, Lerner Alcala, Jason Liu, Blake, Rogelio Rojas, Bunion Bandit, ifjymk, K, Aaron Buckley, KM, Melchior Schilling, Адріан Недбайло, 철수 박, Lisette Lerma, Abhi S, Robert Malone, On The Path Of Righteousness, Natalia Ostaszewska, Jordyn Kindness, Wa sup, Patrick Lee, Jacob Royce, Mattia Adami, Gregory Dance, Adrine, Carlos Garcia, cedox, Jonny MacEachern, 🌠, Tan Mun Ling, Martin Gerlach, Knightwalker, Lukas Hammerschmidt, HORUS ™, as cam, Richard Fernandez, K Chuong Dang, Hashem Hanaktah, Justin Skariah, Marli, Ella Schultz, Ali Abid, Siva Garapati, Nitin Chetla, hubert tuyishime, J, Dan S, Salman Majid, C, Maduka Gunasinghe, Marcin Skic, Andreas China, anonymous, Chanho Youne, Dhenis Ferisco, Wave, Foxy_null, WolfsForever, César Flores, Abufit Club, JB Eyring, Yazan Bouchi, Corey, mootcourt, Peter McCabe, Daniel Chien, D N, Mrudang, Yon Uni, Saad, Jared, Mohull Mehta, Wei, Xeno G, Theodore Addo, Robert Balisong, Tyler Schulte, Jonathan Contreras, Greg, Philly, Đen Trắng, Osasere Osula, Morgan Torres, Rae Hanna, Natalie, Michael Pekala, Fraol Feye, Cameron M, Omar Toro, Keeler Kime, Melvin Ezennia, Nailah Kahotep, Sean Voiers, Isabel Guan, Ken"
+
 #🟢 AnkiWebのﾊﾟﾄﾛﾝのﾘｽﾄを更新
 # https://ankiweb.net/shared/info/🟢
 
-
+# https://github.com/Arthur-Milchior/anki-enhance-main-window/issues
 
 SPECIAL_THANKS ="""\
 [ Patreon ] Special thanks
@@ -28,15 +28,15 @@ able to develop this. Thank you very much!🙏"""
 
 POKEBALL_PATH = r"popup_icon.png"
 
-THE_ADDON_NAME = "Enhance main window (Customized by Shige)"
+THE_ADDON_NAME = "📊Enhance main window (Customized by Shige)"
 GITHUB_URL = "https://github.com/shigeyukey/my_addons/issues"
 
 
 # popup-size
 # mini-pupup
-SIZE_MINI_WIDTH = 466
-SIZE_MINI_HEIGHT = 290
-# Width: 466, Height: 290
+SIZE_MINI_WIDTH = 546
+SIZE_MINI_HEIGHT = 408
+# Width: 546, Height: 408
 
 # Large-popup
 SIZE_BIG_WIDTH = 700
@@ -62,9 +62,17 @@ POPUP_PNG = r"popup_shige.png"
 
 #🟢
 NEW_FEATURE = """
-[1] Enhanced 2024-09-25
-    - New tooltip seems to cause delays so I simplified the code.
-    - If it doesn't work feel free to contact me so I can remove it.
+[1] 🔥Enhanced 2024-10-12
+    - Added a new column for FSRS Desired Retention.
+    - Added a new column for Maximum Interval.
+        - These can be turned off from the All column(bottom).
+        - Option for color not yet developed.
+    - Rounded corners on progress bar.
+    - Added All Column to click menu.
+    - Moved the preset checkbox to the All column.
+
+[1] 🐛Bug fixes
+    - Fixed some old broken code.
 """
 
 UPDATE_TEXT = "I updated this Add-on."
