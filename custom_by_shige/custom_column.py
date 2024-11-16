@@ -2,6 +2,7 @@ from aqt import (QColor, QDialog, QFrame, QHBoxLayout, QIntValidator, QResizeEve
                 QVBoxLayout, QLabel, QLineEdit, QCheckBox, QPushButton, QColorDialog, QWidget, Qt)
 from .shige_addons import add_shige_addons_tab
 from .endroll.endroll import add_credit_tab
+from .changelog_tab import add_changelog_tab
 from .shige_pop.popup_config import RATE_THIS_URL
 from aqt.utils import openLink
 from .open_shige_addons_wiki import WikiQLabel
@@ -83,13 +84,33 @@ class CustomColumnDialog(QDialog):
             tab2_layout.addWidget(WikiQLabel("<b>[ Tooltip ]</b>",
                 "https://shigeyukey.github.io/shige-addons-wiki/enhance-main-window.html#tooltip"))
             self.overlay_checkbox = QCheckBox("Show tooltip")
-            self.overlay_checkbox.setChecked(self.column["overlay"] is None)
+            # self.overlay_checkbox.setChecked(self.column["overlay"] is None or isinstance(self.column["overlay"], str))
+            self.overlay_checkbox.setChecked(self.column["overlay"] is not False)
             tab2_layout.addWidget(self.overlay_checkbox)
 
+        if "overlay" in self.column:
+            tab2_layout.addWidget(QLabel("Tooltip Description (Custom)"))
+            if "description" in self.column:
+                default_text = self.column["description"] if isinstance(self.column["description"], str) else ""
+            else:
+                default_text = ""
+            self.overlay_edit = QLineEdit(self.column["overlay"] if isinstance(self.column["overlay"], str) else default_text)
+            tab2_layout.addWidget(self.overlay_edit)
+
         if "description" in self.column:
-            tab2_layout.addWidget(QLabel("Tooltip Description"))
-            self.description_edit = QLineEdit(self.column["description"])
+            tab2_layout.addWidget(QLabel("Tooltip Description (Default)"))
+            description_text = self.column["description"] if isinstance(self.column["description"], str) else ""
+            self.description_edit = QLineEdit(description_text)
             tab2_layout.addWidget(self.description_edit)
+
+        if "description" in self.column and "overlay" in self.column:
+            def toggle_overlay_fields():
+                is_checked = self.overlay_checkbox.isChecked()
+                self.overlay_edit.setEnabled(is_checked)
+                # self.description_edit.setEnabled(is_checked)
+
+            self.overlay_checkbox.stateChanged.connect(toggle_overlay_fields)
+            toggle_overlay_fields()
 
 
         # Color
@@ -188,6 +209,7 @@ class CustomColumnDialog(QDialog):
 
         self.setup_global_option(tab4_layout, tab5_layout)
 
+        add_changelog_tab(self, tab_widget)
         add_credit_tab(self, tab_widget)
         add_shige_addons_tab(self, tab_widget)
 
@@ -579,6 +601,14 @@ class CustomColumnDialog(QDialog):
         #     self.column["name"] = self.name_edit.text()
         if hasattr(self, 'description_edit'):
             self.column["description"] = self.description_edit.text()
+
+        if hasattr(self, 'overlay_checkbox'):
+            if self.overlay_checkbox.isChecked():
+                self.column["overlay"] = self.overlay_edit.text() if self.overlay_edit.text() != "" else None
+            else:
+                self.column["overlay"] = False
+
+
         if hasattr(self, 'present_checkbox'):
             self.column["present"] = self.present_checkbox.isChecked()
         if hasattr(self, 'absolute_checkbox'):
@@ -587,8 +617,7 @@ class CustomColumnDialog(QDialog):
             self.column["percent"] = self.percent_checkbox.isChecked()
         if hasattr(self, 'subdeck_checkbox'):
             self.column["subdeck"] = self.subdeck_checkbox.isChecked()
-        if hasattr(self, 'overlay_checkbox'):
-            self.column["overlay"] = None if self.overlay_checkbox.isChecked() else False
+
         if hasattr(self, "header_edit"):
             header_text = self.header_edit.text().strip()
             self.column["header"] = None if header_text == "" else header_text
@@ -597,14 +626,45 @@ class CustomColumnDialog(QDialog):
         # ---- now column option -------------
 
         # ---- global column option ----------
-
-
         self.save_all_options()
-
-
 
         writeConfig()
         self.deckbrowser.show()
         self.accept()
 
 
+    # def save_and_close(self):
+
+    #     # ---- now column option ----------
+    #     from ..config import writeConfig
+    #     # if hasattr(self, 'name_edit'):
+    #     #     self.column["name"] = self.name_edit.text()
+    #     if hasattr(self, 'description_edit'):
+    #         self.column["description"] = self.description_edit.text()
+    #     if hasattr(self, 'present_checkbox'):
+    #         self.column["present"] = self.present_checkbox.isChecked()
+    #     if hasattr(self, 'absolute_checkbox'):
+    #         self.column["absolute"] = self.absolute_checkbox.isChecked()
+    #     if hasattr(self, 'percent_checkbox'):
+    #         self.column["percent"] = self.percent_checkbox.isChecked()
+    #     if hasattr(self, 'subdeck_checkbox'):
+    #         self.column["subdeck"] = self.subdeck_checkbox.isChecked()
+    #     if hasattr(self, 'overlay_checkbox'):
+    #         self.column["overlay"] = None if self.overlay_checkbox.isChecked() else False
+    #     if hasattr(self, "header_edit"):
+    #         header_text = self.header_edit.text().strip()
+    #         self.column["header"] = None if header_text == "" else header_text
+    #     if hasattr(self, 'temp_color'):
+    #         self.column["color"] = self.temp_color
+    #     # ---- now column option -------------
+
+    #     # ---- global column option ----------
+
+
+    #     self.save_all_options()
+
+
+
+    #     writeConfig()
+    #     self.deckbrowser.show()
+    #     self.accept()

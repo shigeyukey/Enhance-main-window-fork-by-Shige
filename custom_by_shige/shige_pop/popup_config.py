@@ -12,7 +12,7 @@ from .change_log import OLD_CHANGE_LOG #🟢
 
 CHANGE_LOG = "is_change_log"
 # CHANGE_LOG_DAY = "2024-09-19-" #🟢
-CHANGE_LOG_DAY = "2024-10-12d" #🟢
+CHANGE_LOG_DAY = "2024-11-17b" #🟢
 
 
 #🟢 AnkiWebのﾊﾟﾄﾛﾝのﾘｽﾄを更新
@@ -35,8 +35,8 @@ GITHUB_URL = "https://github.com/shigeyukey/my_addons/issues"
 # popup-size
 # mini-pupup
 SIZE_MINI_WIDTH = 546
-SIZE_MINI_HEIGHT = 408
-# Width: 546, Height: 408
+SIZE_MINI_HEIGHT = 364
+# Width: 546, Height: 364
 
 # Large-popup
 SIZE_BIG_WIDTH = 700
@@ -62,17 +62,14 @@ POPUP_PNG = r"popup_shige.png"
 
 #🟢
 NEW_FEATURE = """
-[1] 🔥Enhanced 2024-10-12
-    - Added a new column for FSRS Desired Retention.
-    - Added a new column for Maximum Interval.
-        - These can be turned off from the All column(bottom).
-        - Option for color not yet developed.
-    - Rounded corners on progress bar.
-    - Added All Column to click menu.
-    - Moved the preset checkbox to the All column.
-
-[1] 🐛Bug fixes
-    - Fixed some old broken code.
+[1] 🐛Bug fixed 2024-11-17
+    Fixed a bug causing custom text in tooltips not working.
+    1. Custom tooltip:
+        - Displayed in Anki Home.
+        - Tooltip is reset to default when turned off.
+    2. Default tooltip
+        - Used when there is no Custom tooltip.
+        - Displayed in All Column option.
 """
 
 UPDATE_TEXT = "I updated this Add-on."
