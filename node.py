@@ -685,8 +685,9 @@ def make(oldNode, endedParent=False, givenUpParent=False, pauseParent=False):
 
 # based on Anki 2.0.36 aqt/deckbrowser.py DeckBrowser._renderDeckTree
 
+from aqt.deckbrowser import DeckBrowser
 
-def renderDeckTree(self, nodes, depth=0):
+def renderDeckTree(self:"DeckBrowser", nodes, depth=0):
     # Look at aqt/deckbrowser.py for a description of oldNode
     if not nodes:
         return ""
@@ -717,6 +718,71 @@ def renderDeckTree(self, nodes, depth=0):
         buf += self._topLevelDragRow()
         end = time.time()
     return buf
+
+
+# def renderDeckTree(self:"DeckBrowser", nodes, depth=0):
+#     print(f"renderDeckTree called with nodes type={type(nodes)}, depth={depth}")
+#     # Look at aqt/deckbrowser.py for a description of oldNode
+#     if not nodes:
+#         print("No nodes provided, returning empty string")
+#         return ""
+#     if depth == 0:
+#         print("Processing root level (depth=0)")
+#         tree.computeValues()
+#         print("Tree values computed")
+#         tree.computeTime()
+#         print("Tree time computed")
+#         buf = f"""<style>{css}</style><script>{js}</script>{start_header}{deck_header}"""
+#         print(f"Headers initialized, columns count: {len(getUserOption('columns'))}")
+#         for colpos, conf in enumerate(getUserOption("columns")):
+#             # print(f"Processing column {colpos}: name={conf.get('name', 'unknown')}")
+#             if conf.get("present", True):
+#                 print(f"Processing column {colpos}: name={conf.get('name', 'unknown')}")
+#                 print(f"  Adding column header: {getHeader(conf)}")
+#                 buf += column_header(getHeader(conf), colpos)
+#             # else:
+#             #     print(f"  Column {colpos} is not present, skipping")
+#         print("Adding option header")
+#         buf += option_header  # for deck's option
+#         if getUserOption("option"):
+#             print("Option enabled, adding option_name_header")
+#             buf += option_name_header
+#         # else:
+#         #     print("Option disabled, skipping option_name_header")
+#         buf += end_header
+#         print("Headers completed")
+
+#         # convert nodes
+#         try:
+#             print(f"Converting nodes, count: {len(nodes) if hasattr(nodes, '__len__') else 'unknown'}")
+#             nodes = [make(node) for node in nodes]
+#             print(f"Nodes successfully converted, new count: {len(nodes)}")
+#         except Exception as e:
+#             print(f"Exception in node conversion: {str(e)}, trying nodes.children")
+#             try:
+#                 nodes = [make(node) for node in nodes.children]
+#                 print(f"Conversion from nodes.children successful, count: {len(nodes)}")
+#             except Exception as e2:
+#                 print(f"Failed to convert nodes.children as well: {str(e2)}")
+
+#         print("Adding top level drag row")
+#         buf += self._topLevelDragRow()
+#     else:
+#         print(f"Processing nested level, depth={depth}")
+#         buf = ""
+    
+#     print(f"Starting to process {len(nodes)} nodes at depth {depth}")
+#     for i, node in enumerate(nodes):
+#         print(f"Processing node {i+1}/{len(nodes)} at depth {depth}: did={node.did if hasattr(node, 'did') else 'unknown'}")
+#         buf += self._deckRow(node, depth, len(nodes))
+#         print(f"Node {i+1}/{len(nodes)} processed")
+    
+#     if depth == 0:
+#         print("Back at root level, adding final top level drag row")
+#         buf += self._topLevelDragRow()
+#         end = time.time()
+#         print(f"renderDeckTree completed, buffer length: {len(buf)}")
+#     return buf
 
 
 # based on Anki 2.0.45 aqt/main.py AnkiQt.onRefreshTimer

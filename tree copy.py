@@ -31,10 +31,8 @@ def computeValues():
     debug("Compute values")
     # cutoff = intTime() + mw.col.get_config('collapseTime')
     cutoff = int_time() + mw.col.get_config('collapseTime')
-    print("cutoff: ", cutoff)
 
     today = mw.col.sched.today
-    print("today: ", today)
     tomorrow = today+1
     # yesterdayLimit = (mw.col.sched.dayCutoff-86400)*1000
     yesterdayLimit = (mw.col.sched.day_cutoff-86400)*1000
@@ -42,27 +40,14 @@ def computeValues():
     queriesCardCount = ([(f"flag {i}", f"(flags & 7) == {i}", "", "") for i in range(5)] +
                         [
         ("due tomorrow", f"queue in ({QUEUE_REV},{QUEUE_DAY_LRN}) and due = {tomorrow}", "", ""),
-
-        # ("learning now from today", f"queue = {QUEUE_LRN} and due <= {cutoff}", "", ""),
+        ("learning now from today", f"queue = {QUEUE_LRN} and due <= {cutoff}", "", ""),
         ("learning today from past", f"queue = {QUEUE_DAY_LRN} and due <= {today}", "", ""),
-        # ("learning later today", f"queue = {QUEUE_LRN} and due > {cutoff}", "", ""),
+        ("learning later today", f"queue = {QUEUE_LRN} and due > {cutoff}", "", ""),
         ("learning future", f"queue = {QUEUE_DAY_LRN} and due > {today}", "", ""),
-        # ("learning today repetition from today", f"queue = {QUEUE_LRN}", f"left/1000", ""),
+        ("learning today repetition from today", f"queue = {QUEUE_LRN}", f"left/1000", ""),
         ("learning today repetition from past", f"queue = {QUEUE_DAY_LRN}", f"left/1000", ""),
-        # ("learning repetition from today", f"queue = {QUEUE_LRN}", f"mod%1000", ""),
+        ("learning repetition from today", f"queue = {QUEUE_LRN}", f"mod%1000", ""),
         ("learning repetition from past", f"queue = {QUEUE_DAY_LRN}", f"mod%1000", ""),
-
-
-        ("learning now from today", f"queue in ({QUEUE_LRN}, {QUEUE_PREVIEW}) and due <= {cutoff}", "", ""),
-        # ("learning today from past", f"queue in ({QUEUE_DAY_LRN}, {QUEUE_PREVIEW}) and due <= {today}", "", ""),
-        ("learning later today", f"queue in ({QUEUE_LRN}, {QUEUE_PREVIEW}) and due > {cutoff}", "", ""),
-        # ("learning future", f"queue in ({QUEUE_DAY_LRN}, {QUEUE_PREVIEW}) and due > {today}", "", ""),
-        ("learning today repetition from today", f"queue in ({QUEUE_LRN}, {QUEUE_PREVIEW})", f"left/1000", ""),
-        # ("learning today repetition from past", f"queue in ({QUEUE_DAY_LRN}, {QUEUE_PREVIEW})", f"left/1000", ""),
-        ("learning repetition from today", f"queue in ({QUEUE_LRN}, {QUEUE_PREVIEW})", f"mod%1000", ""),
-        # ("learning repetition from past", f"queue in ({QUEUE_DAY_LRN}, {QUEUE_PREVIEW})", f"mod%1000", ""),
-
-
         ("review due", f"queue = {QUEUE_REV} and due <= {today}", "", ""),
         ("reviewed today", f"queue = {QUEUE_REV} and due>0 and due-ivl = {today}", "", ""),
         ("repeated today", f"revlog.id>{yesterdayLimit}", "", "revlog inner join cards on revlog.cid = cards.id"),
@@ -86,15 +71,13 @@ def computeValues():
             table = "cards"
         query = f"select did, {element} from {table} {condition} group by did"
         results = mw.col.db.all(query)
-        # debug("""For {name}: query "{query}".""")
-        print("")
-        print("======================================")
-        print(f""" >>> {name} \n query:"{query}" """)
+        debug("""For {name}: query "{query}".""")
+        print(f"""For {name}: query "{query}".""")
         print(f"Results: {results}")
         values[name] = dict()
         for did, value in results:
             debug(f"In deck {did} there are {value} cards of kind {name}")
-            print(f"did:{did} value:{value} name:{name}")
+            print(f"In deck {did} there are {value} cards of kind {name}")
             values[name][did] = value
 
 
@@ -105,35 +88,3 @@ def computeTime():
     times.clear()
     for did, time in mw.col.db.all(f"select did,min(case when queue = {QUEUE_LRN} then due else null end) from cards group by did"):
         times[did] = time
-
-
-
-    #   -- -3=user buried(In scheduler 2),
-    #   -- -2=sched buried (In scheduler 2), 
-    #   -- -2=buried(In scheduler 1),
-    #   -- -1=suspended,
-    #   -- 0=new, 1=learning, 2=review (as for type)
-    #   -- 3=in learning, next rev in at least a day after the previous review
-    #   -- 4=preview
-
-
-# # Queue types
-# CardQueue = NewType("CardQueue", int)
-# QUEUE_TYPE_MANUALLY_BURIED = CardQueue(-3)
-# QUEUE_TYPE_SIBLING_BURIED = CardQueue(-2)
-# QUEUE_TYPE_SUSPENDED = CardQueue(-1)
-# QUEUE_TYPE_NEW = CardQueue(0)
-# QUEUE_TYPE_LRN = CardQueue(1)
-# QUEUE_TYPE_REV = CardQueue(2)
-# QUEUE_TYPE_DAY_LEARN_RELEARN = CardQueue(3)
-# QUEUE_TYPE_PREVIEW = CardQueue(4)
-
-
-        # ("learning now from today", f"queue = {QUEUE_LRN} and due <= {cutoff}", "", ""),
-        # ("learning today from past", f"queue = {QUEUE_DAY_LRN} and due <= {today}", "", ""),
-        # ("learning later today", f"queue = {QUEUE_LRN} and due > {cutoff}", "", ""),
-        # ("learning future", f"queue = {QUEUE_DAY_LRN} and due > {today}", "", ""),
-        # ("learning today repetition from today", f"queue = {QUEUE_LRN}", f"left/1000", ""),
-        # ("learning today repetition from past", f"queue = {QUEUE_DAY_LRN}", f"left/1000", ""),
-        # ("learning repetition from today", f"queue = {QUEUE_LRN}", f"mod%1000", ""),
-        # ("learning repetition from past", f"queue = {QUEUE_DAY_LRN}", f"mod%1000", ""),

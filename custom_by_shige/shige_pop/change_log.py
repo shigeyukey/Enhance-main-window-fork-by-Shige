@@ -2,6 +2,15 @@
 
 
 OLD_CHANGE_LOG = """
+[1] 🐛Bug fixed 2024-11-17
+    Fixed a bug causing custom text in tooltips not working.
+    1. Custom tooltip:
+        - Displayed in Anki Home.
+        - Tooltip is reset to default when turned off.
+    2. Default tooltip
+        - Used when there is no Custom tooltip.
+        - Displayed in All Column option.
+
 2024-10-12
 [1] 🔥Enhanced
     - Added a new column for FSRS Desired Retention.

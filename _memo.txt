@@ -1,0 +1,14 @@
+            {
+                "description": "Percent bar to do today",
+                "header": "Today",
+                "name": "bar",
+                "names": [
+                    "review today",
+                    "learning card",
+                    "new today",
+                    "reviewed today"
+                ],
+                "overlay": false,
+                "present": false,
+                "subdeck": true
+            },
