@@ -31,10 +31,10 @@ def computeValues():
     debug("Compute values")
     # cutoff = intTime() + mw.col.get_config('collapseTime')
     cutoff = int_time() + mw.col.get_config('collapseTime')
-    print("cutoff: ", cutoff)
+    # print("cutoff: ", cutoff)
 
     today = mw.col.sched.today
-    print("today: ", today)
+    # print("today: ", today)
     tomorrow = today+1
     # yesterdayLimit = (mw.col.sched.dayCutoff-86400)*1000
     yesterdayLimit = (mw.col.sched.day_cutoff-86400)*1000
@@ -86,15 +86,15 @@ def computeValues():
             table = "cards"
         query = f"select did, {element} from {table} {condition} group by did"
         results = mw.col.db.all(query)
-        # debug("""For {name}: query "{query}".""")
-        print("")
-        print("======================================")
-        print(f""" >>> {name} \n query:"{query}" """)
-        print(f"Results: {results}")
+        debug("""For {name}: query "{query}".""")
+        # print("")
+        # print("======================================")
+        # print(f""" >>> {name} \n query:"{query}" """)
+        # print(f"Results: {results}")
         values[name] = dict()
         for did, value in results:
             debug(f"In deck {did} there are {value} cards of kind {name}")
-            print(f"did:{did} value:{value} name:{name}")
+            # print(f"did:{did} value:{value} name:{name}")
             values[name][did] = value
 
 
